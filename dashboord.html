@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<title>داشبورد | هاویرکشت</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="output.css" rel="stylesheet">
+<!-- فونت ایران‌سنس -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css">
+<style>
+    body {
+        font-family: 'Vazirmatn', sans-serif;
+    }
+    
+    .error-message {
+        background-color: #fee;
+        border: 1px solid #f99;
+        color: #c00;
+        padding: 10px;
+        border-radius: 5px;
+        margin: 10px 0;
+        display: none;
+    }
+    
+    .success-message {
+        background-color: #efe;
+        border: 1px solid #9f9;
+        color: #090;
+        padding: 10px;
+        border-radius: 5px;
+        margin: 10px 0;
+        display: none;
+    }
+</style>
+</head>
+
+<body class="bg-gray-100 dark:bg-gray-900 text-gray-800 dark:text-gray-100 flex flex-col min-h-screen">
+
+<!-- ================= HEADER ================= -->
+<header class="flex items-center justify-between px-4 py-3 bg-white dark:bg-gray-800 shadow">
+    <div class="flex items-center gap-4">
+        <button id="menuBtn" class="text-2xl">☰</button>
+        <span class="text-lg font-bold">سامانه هاویرکشت دانشجویی</span>
+    </div>
+    <div class="flex items-center gap-4">
+        <button id="themeToggle" class="text-xl">🌙</button>
+        <a href="#" id="logoutBtn" class="text-xl" title="خروج">👤</a>
+    </div>
+</header>
+
+<!-- ================= LAYOUT ================= -->
+<div class="flex flex-1">
+
+    <!-- ================= SIDEBAR ================= -->
+<aside id="sidebar" class="w-72 min-h-screen bg-white dark:bg-gray-800 shadow-lg p-4 hidden">
+    <nav class="space-y-3 text-sm">
+        <a href="#" class="block font-bold hover:text-green-600">داشبورد</a>
+
+        <div>
+            <button onclick="toggleSubmenu('baseData')" class="flex justify-between w-full hover:text-green-600">
+                <span>داده های اولیه</span><span>▾</span>
+            </button>
+            <div id="baseData" class="mr-4 mt-2 space-y-1 hidden text-gray-600 dark:text-gray-300">
+                <a href="new_year.html" class="block hover:text-green-500">ثبت سال زراعی</a>
+                <a href="new_province.html" class="block hover:text-green-500">ثبت استان</a>
+                <a href="new_city.html" class="block hover:text-green-500 font-bold">ثبت شهرستان</a>
+                <a href="new_village.html" class="block hover:text-green-500">ثبت روستا</a>
+                <a href="new_car.html" class="block hover:text-green-500">ثبت انواع خودرو</a>
+                <a href="new_driver.html" class="block hover:text-green-500">ثبت راننده</a>
+                <a href="new_factory.html" class="block hover:text-green-500">ثبت کارخانه</a>
+                <a href="new_unit.html" class="block hover:text-green-500">ثبت واحد اندازه گیری</a>
+                <a href="new_poison.html" class="block hover:text-green-500">ثبت انواع سم</a>
+                <a href="new_seed.html" class="block hover:text-green-500">ثبت انواع بذر</a>
+                <a href="new_commodity.html" class="block hover:text-green-500">ثبت انواع کالا</a>
+                <a href="pay.html" class="block hover:text-green-500">ثبت انواع پرداخت</a>
+                <a href="price.html" class="block hover:text-green-500">ثبت قیمت کالا</a>
+                <a href="cutie.html" class="block hover:text-green-500">ثبت قیمت عیار</a>
+                <a href="new_farmer.html" class="block hover:text-green-500">ثبت کشاورز</a>
+            </div>
+        </div>
+
+        <div>
+            <button onclick="toggleSubmenu('contractorOps')" class="flex justify-between w-full hover:text-green-600">
+                <span>عملیات پیمانکار</span><span>▾</span>
+            </button>
+            <div id="contractorOps" class="mr-4 mt-2 space-y-1 hidden">
+                <a href="factory_pay.html" class="block hover:text-green-500">ثبت واریزی کارخانه</a>
+                <a href="factory_seed.html" class="block hover:text-green-500">ثبت بذر کارخانه</a>
+                <a href="factory_poison.html" class="block hover:text-green-500">ثبت سم کارخانه</a>
+                <a href="factory_sugar.html" class="block hover:text-green-500">ثبت شکر کارخانه</a>
+                <a href="factory_scum.html" class="block hover:text-green-500">ثبت تفاله کارخانه</a>
+            </div>
+        </div>
+
+        <a href="farmers_operations.html" class="block hover:text-green-600">عملیات کشاورز</a>
+        <a href="#" class="block hover:text-green-600">صورتحساب کشاورزان</a>
+
+        <div>
+            <button onclick="toggleSubmenu('reports')" class="flex justify-between w-full hover:text-green-600">
+                <span>گزارش گیری</span><span>▾</span>
+            </button>
+            <div id="reports" class="mr-4 mt-2 space-y-1 hidden">
+                <a href="#" class="block hover:text-green-500">گزارش کلی</a>
+                <a href="#" class="block hover:text-green-500">گزارش کارخانه ها</a>
+                <a href="#" class="block hover:text-green-500">گزارش بذر</a>
+                <a href="#" class="block hover:text-green-500">گزارش سم</a>
+                <a href="#" class="block hover:text-green-500">گزارش شکر</a>
+                <a href="#" class="block hover:text-green-500">گزارش تفاله</a>
+            </div>
+        </div>
+
+        <a href="#" class="block hover:text-green-600">مدیریت ارسال پیامک</a>
+        <a href="#" class="block hover:text-green-600">ثبت بار های آماده حمل</a>
+
+        <div>
+            <button onclick="toggleSubmenu('settings')" class="flex justify-between w-full hover:text-green-600">
+                <span>تنظیمات</span><span>▾</span>
+            </button>
+            <div id="settings" class="mr-4 mt-2 space-y-1 hidden">
+                <a href="#" class="block hover:text-green-500">مدیریت کاربران</a>
+                <a href="#" class="block hover:text-green-500">تعیین رمز عبور</a>
+                <a href="#" class="block hover:text-red-500">خروج</a>
+            </div>
+        </div>
+
+        <a href="#" class="block hover:text-green-600">پشتیبانی</a>
+    </nav>
+</aside>
+
+
+    <!-- ================= MAIN ================= -->
+    <main class="flex-1 p-6">
+        <!-- پیام‌های وضعیت -->
+        <div id="errorMessage" class="error-message"></div>
+        <div id="successMessage" class="success-message"></div>
+
+<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-5">
+
+<!-- card -->
+<div class="group bg-gradient-to-br from-white to-gray-50 dark:from-gray-800 dark:to-gray-900 
+border border-gray-200 dark:border-gray-700 rounded-2xl p-5 
+shadow-sm hover:shadow-xl hover:-translate-y-1 hover:scale-[1.02] 
+transition-all duration-300 relative overflow-hidden">
+
+<div class="absolute top-0 left-0 w-full h-1 bg-blue-500 opacity-70"></div>
+
+<div class="text-sm text-gray-500 group-hover:text-gray-700 dark:group-hover:text-gray-300 mb-2 transition">
+مانده فعلی در حساب پیمانکار
+</div>
+<div class="text-2xl font-extrabold text-gray-800 dark:text-white" id="contractorBalance">۰ تومان</div>
+</div>
+
+<!-- تکرار همین استایل برای بقیه -->
+<div class="group bg-gradient-to-br from-white to-gray-50 dark:from-gray-800 dark:to-gray-900 border border-gray-200 dark:border-gray-700 rounded-2xl p-5 shadow-sm hover:shadow-xl hover:-translate-y-1 hover:scale-[1.02] transition-all duration-300 relative overflow-hidden">
+<div class="absolute top-0 left-0 w-full h-1 bg-purple-500 opacity-70"></div>
+<div class="text-sm text-gray-500 mb-2">تعداد قرارداد کشاورزان</div>
+<div class="text-2xl font-extrabold dark:text-white" id="farmerContracts">۰ عدد</div>
+</div>
+
+<div class="group bg-gradient-to-br from-white to-gray-50 dark:from-gray-800 dark:to-gray-900 border border-gray-200 dark:border-gray-700 rounded-2xl p-5 shadow-sm hover:shadow-xl hover:-translate-y-1 hover:scale-[1.02] transition-all duration-300 relative overflow-hidden">
+<div class="absolute top-0 left-0 w-full h-1 bg-green-500 opacity-70"></div>
+<div class="text-sm text-gray-500 mb-2">کل تناژ تحویلی کشاورزان</div>
+<div class="text-2xl font-extrabold dark:text-white" id="totalTonnage">۰ تن</div>
+</div>
+
+<div class="group bg-gradient-to-br from-white to-gray-50 dark:from-gray-800 dark:to-gray-900 border border-gray-200 dark:border-gray-700 rounded-2xl p-5 shadow-sm hover:shadow-xl hover:-translate-y-1 hover:scale-[1.02] transition-all duration-300 relative overflow-hidden">
+<div class="absolute top-0 left-0 w-full h-1 bg-red-500 opacity-70"></div>
+<div class="text-sm text-gray-500 mb-2">جمع بدهی به کشاورزان</div>
+<div class="text-2xl font-extrabold dark:text-white" id="totalDebt">۰ تومان</div>
+</div>
+
+<div class="group bg-gradient-to-br from-white to-gray-50 dark:from-gray-800 dark:to-gray-900 border border-gray-200 dark:border-gray-700 rounded-2xl p-5 shadow-sm hover:shadow-xl hover:-translate-y-1 hover:scale-[1.02] transition-all duration-300 relative overflow-hidden">
+<div class="absolute top-0 left-0 w-full h-1 bg-yellow-500 opacity-70"></div>
+<div class="text-sm text-gray-500 mb-2">جمع طلب از کشاورزان</div>
+<div class="text-2xl font-extrabold dark:text-white" id="totalClaim">۰ تومان</div>
+</div>
+
+<div class="group bg-gradient-to-br from-white to-gray-50 dark:from-gray-800 dark:to-gray-900 border border-gray-200 dark:border-gray-700 rounded-2xl p-5 shadow-sm hover:shadow-xl hover:-translate-y-1 hover:scale-[1.02] transition-all duration-300 relative overflow-hidden">
+<div class="absolute top-0 left-0 w-full h-1 bg-indigo-500 opacity-70"></div>
+<div class="text-sm text-gray-500 mb-2">مانده تا تسویه کشاورزان</div>
+<div class="text-2xl font-extrabold dark:text-white" id="remainingToSettle">۰ تومان</div>
+</div>
+
+<div class="group bg-gradient-to-br from-white to-gray-50 dark:from-gray-800 dark:to-gray-900 border border-gray-200 dark:border-gray-700 rounded-2xl p-5 shadow-sm hover:shadow-xl hover:-translate-y-1 hover:scale-[1.02] transition-all duration-300 relative overflow-hidden">
+<div class="absolute top-0 left-0 w-full h-1 bg-pink-500 opacity-70"></div>
+<div class="text-sm text-gray-500 mb-2">کارمزد پیمانکار (۱٪)</div>
+<div class="text-2xl font-extrabold dark:text-white" id="contractorFee">۰ تومان</div>
+</div>
+
+<div class="group bg-gradient-to-br from-white to-gray-50 dark:from-gray-800 dark:to-gray-900 border border-gray-200 dark:border-gray-700 rounded-2xl p-5 shadow-sm hover:shadow-xl hover:-translate-y-1 hover:scale-[1.02] transition-all duration-300 relative overflow-hidden">
+<div class="absolute top-0 left-0 w-full h-1 bg-emerald-500 opacity-70"></div>
+<div class="text-sm text-gray-500 mb-2">سود پیمانکار از بذر</div>
+<div class="text-2xl font-extrabold dark:text-white" id="seedProfit">۰ تومان</div>
+</div>
+
+<div class="group bg-gradient-to-br from-white to-gray-50 dark:from-gray-800 dark:to-gray-900 border border-gray-200 dark:border-gray-700 rounded-2xl p-5 shadow-sm hover:shadow-xl hover:-translate-y-1 hover:scale-[1.02] transition-all duration-300 relative overflow-hidden">
+<div class="absolute top-0 left-0 w-full h-1 bg-orange-500 opacity-70"></div>
+<div class="text-sm text-gray-500 mb-2">سود پیمانکار از سم</div>
+<div class="text-2xl font-extrabold dark:text-white" id="poisonProfit">۰ تومان</div>
+</div>
+
+<div class="group bg-gradient-to-br from-white to-gray-50 dark:from-gray-800 dark:to-gray-900 border border-gray-200 dark:border-gray-700 rounded-2xl p-5 shadow-sm hover:shadow-xl hover:-translate-y-1 hover:scale-[1.02] transition-all duration-300 relative overflow-hidden">
+<div class="absolute top-0 left-0 w-full h-1 bg-cyan-500 opacity-70"></div>
+<div class="text-sm text-gray-500 mb-2">وضعیت کلی پیمانکار</div>
+<div class="text-2xl font-extrabold dark:text-white" id="contractorStatus">---</div>
+</div>
+
+</div>
+</main>
+
+</main>
+
+
+
+</div>
+
+<footer class="text-center text-sm py-4 bg-white dark:bg-gray-800 mt-auto">
+    تمامی حقوق نزد تیم هاویرکشت محفوظ است
+</footer>
+
+<script>
+(function(){
+'use strict';
+
+const API_BASE_URL = 'https://edu-api.havirkesht.ir';
+
+function getToken(){
+    const token = localStorage.getItem('access_token');
+    if (!token) {
+        window.location.href = '/login/login.html';
+        return null;
+    }
+    return token;
+}
+
+function showMessage(elementId, message, isError = true) {
+    const element = document.getElementById(elementId);
+    element.textContent = message;
+    element.style.display = 'block';
+    
+    if (isError) {
+        element.className = 'error-message';
+    } else {
+        element.className = 'success-message';
+    }
+    
+    setTimeout(() => {
+        element.style.display = 'none';
+    }, 5000);
+}
+
+function formatMoney(num){
+    if (num === null || num === undefined) return '۰';
+    return new Intl.NumberFormat('fa-IR').format(num);
+}
+
+function convertToFarsiNumber(n){
+    if (n === null || n === undefined) return '۰';
+    const farsiDigits=['۰','۱','۲','۳','۴','۵','۶','۷','۸','۹'];
+    return n.toString().replace(/\d/g, x => farsiDigits[x]);
+}
+
+function formatTonnage(num){
+    if (num === null || num === undefined) return '۰';
+    const rounded = Math.round(num * 100) / 100;
+    return convertToFarsiNumber(rounded.toLocaleString('fa-IR'));
+}
+
+async function initDashboard(){
+    const token = getToken();
+    if (!token) return;
+    
+    await loadFullReport(token);
+}
+
+async function loadFullReport(token){
+    try {
+        // استفاده از روش GET با پارامتر کوئری مطابق API
+        const res = await fetch(`${API_BASE_URL}/report-full/?crop_year_id=13`, {
+            method: 'POST',
+            headers: {
+                'Authorization': 'Bearer ' + token,
+                'accept': 'application/json'
+            }
+        });
+
+        if (!res.ok) {
+            const errorText = await res.text();
+            console.error('خطای API:', errorText);
+            showMessage('errorMessage', 'خطا در دریافت اطلاعات داشبورد', true);
+            return;
+        }
+
+        const data = await res.json();
+
+        // به روزرسانی مقادیر
+        document.getElementById('contractorBalance').innerText = 
+            formatMoney(data.current_contractor_remaining_balance) + ' تومان';
+
+        document.getElementById('farmerContracts').innerText = 
+            convertToFarsiNumber(data.farmers_commitment_count) + ' عدد';
+
+        document.getElementById('totalTonnage').innerText = 
+            formatTonnage(data.total_delivered_tonnage) + ' تن';
+
+        document.getElementById('totalDebt').innerText = 
+            formatMoney(data.total_farmers_debt) + ' تومان';
+
+        document.getElementById('totalClaim').innerText = 
+            formatMoney(data.total_farmers_receivable) + ' تومان';
+
+        document.getElementById('remainingToSettle').innerText = 
+            formatMoney(data.farmers_remaining_settlement) + ' تومان';
+
+        document.getElementById('contractorFee').innerText = 
+            formatMoney(data.contractor_fee) + ' تومان';
+
+        document.getElementById('seedProfit').innerText = 
+            formatMoney(data.contractor_seed_profit) + ' تومان';
+
+        document.getElementById('poisonProfit').innerText = 
+            formatMoney(data.contractor_pesticide_profit) + ' تومان';
+
+        // وضعیت کلی
+        const statusEl = document.getElementById('contractorStatus');
+        const s = data.overall_contractor_status;
+
+        if (s > 0) {
+            statusEl.innerText = formatMoney(s) + ' تومان (+)';
+            statusEl.className = 'text-2xl font-extrabold text-green-600';
+        } else if (s < 0) {
+            statusEl.innerText = formatMoney(Math.abs(s)) + ' تومان (-)';
+            statusEl.className = 'text-2xl font-extrabold text-red-600';
+        } else {
+            statusEl.innerText = 'تراز صفر';
+            statusEl.className = 'text-2xl font-extrabold text-yellow-600';
+        }
+
+    } catch (err) {
+        console.error('خطا در دریافت گزارش:', err);
+        showMessage('errorMessage', 'خطا در ارتباط با سرور', true);
+    }
+}
+
+// مدیریت رویدادهای صفحه
+document.addEventListener('DOMContentLoaded', () => {
+    // مدیریت تم
+    const savedTheme = localStorage.getItem('theme') || 'light';
+    if (savedTheme === 'dark') {
+        document.documentElement.classList.add('dark');
+        document.getElementById('themeToggle').textContent = '☀️';
+    }
+
+    // مدیریت منو
+    document.getElementById('menuBtn').onclick = () => {
+        document.getElementById('sidebar').classList.toggle('hidden');
+    };
+
+    // مدیریت تم
+    document.getElementById('themeToggle').onclick = () => {
+        const isDark = document.documentElement.classList.toggle('dark');
+        document.getElementById('themeToggle').textContent = isDark ? '☀️' : '🌙';
+        localStorage.setItem('theme', isDark ? 'dark' : 'light');
+    };
+
+    // مدیریت خروج
+    document.getElementById('logoutBtn').onclick = (e) => {
+        e.preventDefault();
+        localStorage.clear();
+        window.location.href = '/login/login.html';
+    };
+
+    // بارگذاری داشبورد
+    initDashboard();
+
+    // به روزرسانی خودکار هر 5 دقیقه
+    setInterval(() => {
+        const token = getToken();
+        if (token) {
+            loadFullReport(token);
+        }
+    }, 300000);
+});
+
+// تابع عمومی برای باز و بسته شدن زیرمنوها
+window.toggleSubmenu = function(id) {
+    const element = document.getElementById(id);
+    if (element) {
+        element.classList.toggle('hidden');
+    }
+};
+
+})();
+</script>
+
+</body>
+</html>

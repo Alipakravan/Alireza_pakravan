@@ -1,0 +1,1042 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<title>ثبت کشاورز | هاویرکشت</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="output.css" rel="stylesheet">
+<!-- فونت ایران‌سنس -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css">
+<style>
+    body {
+        font-family: 'Vazirmatn', sans-serif;
+    }
+    
+    .loading {
+        display: none;
+    }
+    
+    .loading.active {
+        display: inline-block;
+        animation: spin 1s linear infinite;
+    }
+    
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+    
+    .error-message {
+        background-color: #fee;
+        border: 1px solid #f99;
+        color: #c00;
+        padding: 10px;
+        border-radius: 5px;
+        margin: 10px 0;
+        display: none;
+    }
+    
+    .success-message {
+        background-color: #efe;
+        border: 1px solid #9f9;
+        color: #090;
+        padding: 10px;
+        border-radius: 5px;
+        margin: 10px 0;
+        display: none;
+    }
+    
+    .farmer-card {
+        background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+        border: 1px solid #dee2e6;
+        border-radius: 0.75rem;
+        padding: 1.5rem;
+        transition: all 0.3s ease;
+    }
+    
+    .dark .farmer-card {
+        background: linear-gradient(135deg, #374151 0%, #1f2937 100%);
+        border: 1px solid #4b5563;
+    }
+    
+    .farmer-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+    }
+    
+    .farmer-name {
+        color: #2d3748;
+        font-weight: 600;
+        font-size: 1.125rem;
+    }
+    
+    .dark .farmer-name {
+        color: #f7fafc;
+    }
+    
+    .farmer-id {
+        color: #4b5563;
+        font-size: 0.875rem;
+        background-color: #e5e7eb;
+        padding: 2px 8px;
+        border-radius: 12px;
+        display: inline-block;
+    }
+    
+    .dark .farmer-id {
+        color: #d1d5db;
+        background-color: #4b5563;
+    }
+    
+    .farmer-detail {
+        color: #4a5568;
+        font-size: 0.875rem;
+        margin-top: 4px;
+    }
+    
+    .dark .farmer-detail {
+        color: #d1d5db;
+    }
+    
+    .farmer-date {
+        color: #718096;
+        font-size: 0.75rem;
+    }
+    
+    .dark .farmer-date {
+        color: #a0aec0;
+    }
+    
+    .delete-btn, .edit-btn {
+        transition: all 0.2s ease;
+    }
+    
+    .delete-btn:hover {
+        background-color: #ef4444 !important;
+        transform: scale(1.1);
+    }
+    
+    .edit-btn:hover {
+        background-color: #3b82f6 !important;
+        transform: scale(1.1);
+    }
+    
+    table {
+        border-collapse: separate;
+        border-spacing: 0;
+    }
+    
+    th, td {
+        padding: 12px 8px;
+        border-bottom: 1px solid #e5e7eb;
+    }
+    
+    .dark th, .dark td {
+        border-bottom: 1px solid #4b5563;
+    }
+    
+    tbody tr:hover {
+        background-color: #f9fafb;
+    }
+    
+    .dark tbody tr:hover {
+        background-color: #374151;
+    }
+    
+    /* بک‌گراند خاکستری روشن و متن خاکستری تیره برای input ها */
+    .farmerInput {
+        background-color: #e2e8f0;
+        color: #4a5568;
+        border: 1px solid #cbd5e0;
+    }
+    
+    .dark .farmerInput {
+        background-color: #4a5568;
+        color: #e2e8f0;
+        border-color: #718096;
+    }
+    
+    .form-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 1rem;
+    }
+    
+    .form-section {
+        background-color: #f8fafc;
+        padding: 1.5rem;
+        border-radius: 0.75rem;
+        margin-bottom: 1rem;
+    }
+    
+    .dark .form-section {
+        background-color: #2d3748;
+    }
+    
+    .form-section-title {
+        font-weight: 600;
+        margin-bottom: 1rem;
+        color: #2d3748;
+        padding-bottom: 0.5rem;
+        border-bottom: 2px solid #e2e8f0;
+    }
+    
+    .dark .form-section-title {
+        color: #e2e8f0;
+        border-bottom-color: #4a5568;
+    }
+</style>
+</head>
+<body class="bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-100">
+
+<!-- هدر -->
+<header class="flex items-center justify-between px-4 py-3 bg-white dark:bg-gray-800 shadow">
+    <button id="menuBtn" class="text-2xl">☰</button>
+    <div class="flex items-center gap-4">
+        <button id="themeToggle" class="text-xl">🌙</button>
+        <a href="#" class="text-xl">🔔</a>
+        <a href="#" id="logoutBtn" class="text-xl" title="خروج">👤</a>
+    </div>
+</header>
+
+<div class="flex">
+<!-- منوی کناری -->
+<aside id="sidebar" class="w-72 min-h-screen bg-white dark:bg-gray-800 shadow-lg p-4 hidden">
+    <nav class="space-y-3 text-sm">
+        <a href="index.html" class="block font-bold hover:text-green-600">داشبورد</a>
+
+        <div>
+            <button onclick="toggleSubmenu('baseData')" class="flex justify-between w-full hover:text-green-600">
+                <span>داده های اولیه</span><span>▾</span>
+            </button>
+            <div id="baseData" class="mr-4 mt-2 space-y-1 hidden text-gray-600 dark:text-gray-300">
+                <a href="new_year.html" class="block hover:text-green-500">ثبت سال زراعی</a>
+                <a href="new_province.html" class="block hover:text-green-500">ثبت استان</a>
+                <a href="new_city.html" class="block hover:text-green-500">ثبت شهرستان</a>
+                <a href="new_village.html" class="block hover:text-green-500">ثبت روستا</a>
+                <a href="new_car.html" class="block hover:text-green-500">ثبت انواع خودرو</a>
+                <a href="new_driver.html" class="block hover:text-green-500">ثبت راننده</a>
+                <a href="new_factory.html" class="block hover:text-green-500">ثبت کارخانه</a>
+                <a href="new_unit.html" class="block hover:text-green-500">ثبت واحد اندازه گیری</a>
+                <a href="new_poison.html" class="block hover:text-green-500">ثبت انواع سم</a>
+                <a href="new_seed.html" class="block hover:text-green-500">ثبت انواع بذر</a>
+                <a href="new_commodity.html" class="block hover:text-green-500">ثبت انواع کالا</a>
+                <a href="pay.html" class="block hover:text-green-500">ثبت انواع پرداخت</a>
+                <a href="price.html" class="block hover:text-green-500">ثبت قیمت کالا</a>
+                <a href="cutie.html" class="block hover:text-green-500">ثبت قیمت عیار</a>
+                <a href="new_farmer.html" class="block hover:text-green-500 font-bold">ثبت کشاورز</a>
+            </div>
+        </div>
+
+        <div>
+            <button onclick="toggleSubmenu('contractorOps')" class="flex justify-between w-full hover:text-green-600">
+                <span>عملیات پیمانکار</span><span>▾</span>
+            </button>
+            <div id="contractorOps" class="mr-4 mt-2 space-y-1 hidden">
+                <a href="factory_pay.html" class="block hover:text-green-500">ثبت واریزی کارخانه</a>
+                <a href="factory_seed.html" class="block hover:text-green-500">ثبت بذر کارخانه</a>
+                <a href="factory_poison.html" class="block hover:text-green-500">ثبت سم کارخانه</a>
+                <a href="factory_sugar.html" class="block hover:text-green-500">ثبت شکر کارخانه</a>
+                <a href="factory_scum.html" class="block hover:text-green-500">ثبت تفاله کارخانه</a>
+            </div>
+        </div>
+
+        <a href="farmers_operations.html" class="block hover:text-green-600">عملیات کشاورز</a>
+        <a href="#" class="block hover:text-green-600">صورتحساب کشاورزان</a>
+
+        <div>
+            <button onclick="toggleSubmenu('reports')" class="flex justify-between w-full hover:text-green-600">
+                <span>گزارش گیری</span><span>▾</span>
+            </button>
+            <div id="reports" class="mr-4 mt-2 space-y-1 hidden">
+                <a href="#" class="block hover:text-green-500">گزارش کلی</a>
+                <a href="#" class="block hover:text-green-500">گزارش کارخانه ها</a>
+                <a href="#" class="block hover:text-green-500">گزارش بذر</a>
+                <a href="#" class="block hover:text-green-500">گزارش سم</a>
+                <a href="#" class="block hover:text-green-500">گزارش شکر</a>
+                <a href="#" class="block hover:text-green-500">گزارش تفاله</a>
+            </div>
+        </div>
+
+        <a href="#" class="block hover:text-green-600">مدیریت ارسال پیامک</a>
+        <a href="#" class="block hover:text-green-600">ثبت بار های آماده حمل</a>
+
+        <div>
+            <button onclick="toggleSubmenu('settings')" class="flex justify-between w-full hover:text-green-600">
+                <span>تنظیمات</span><span>▾</span>
+            </button>
+            <div id="settings" class="mr-4 mt-2 space-y-1 hidden">
+                <a href="#" class="block hover:text-green-500">مدیریت کاربران</a>
+                <a href="#" class="block hover:text-green-500">تعیین رمز عبور</a>
+                <a href="#" class="block hover:text-red-500">خروج</a>
+            </div>
+        </div>
+
+        <a href="#" class="block hover:text-green-600">پشتیبانی</a>
+    </nav>
+</aside>
+
+<!-- بخش اصلی -->
+<main class="flex-1 flex flex-col items-center p-6 space-y-8">
+
+<section class="bg-white dark:bg-gray-800 shadow rounded-xl p-6 space-y-6 w-full max-w-4xl">
+<h2 class="font-bold text-lg text-center mb-6">ثبت کشاورز</h2>
+
+<!-- پیام‌های وضعیت -->
+<div id="errorMessage" class="error-message"></div>
+<div id="successMessage" class="success-message"></div>
+
+<!-- فرم ثبت کشاورز -->
+<div class="form-section">
+    <h3 class="form-section-title">اطلاعات شخصی</h3>
+    <div class="form-grid">
+        <div>
+            <label class="block text-sm font-medium mb-1">کد ملی *</label>
+            <input id="farmerNationalID" type="text" placeholder="کد ملی" 
+                   class="border border-gray-400 rounded-lg px-4 py-3 w-full farmerInput"/>
+        </div>
+        
+        <div>
+            <label class="block text-sm font-medium mb-1">نام کامل *</label>
+            <input id="farmerName" type="text" placeholder="نام کامل" 
+                   class="border border-gray-400 rounded-lg px-4 py-3 w-full farmerInput"/>
+        </div>
+        
+        <div>
+            <label class="block text-sm font-medium mb-1">نام پدر *</label>
+            <input id="farmerFather" type="text" placeholder="نام پدر" 
+                   class="border border-gray-400 rounded-lg px-4 py-3 w-full farmerInput"/>
+        </div>
+        
+        <div>
+            <label class="block text-sm font-medium mb-1">شماره همراه *</label>
+            <input id="farmerPhone" type="text" placeholder="شماره همراه" 
+                   class="border border-gray-400 rounded-lg px-4 py-3 w-full farmerInput"/>
+        </div>
+    </div>
+</div>
+
+<div class="form-section">
+    <h3 class="form-section-title">اطلاعات بانکی</h3>
+    <div class="form-grid">
+        <div>
+            <label class="block text-sm font-medium mb-1">شماره شبا اول *</label>
+            <input id="farmerShaba1" type="text" placeholder="شبا اول" 
+                   class="border border-gray-400 rounded-lg px-4 py-3 w-full farmerInput"/>
+        </div>
+        
+        <div>
+            <label class="block text-sm font-medium mb-1">شماره شبا دوم</label>
+            <input id="farmerShaba2" type="text" placeholder="شبا دوم (اختیاری)" 
+                   class="border border-gray-400 rounded-lg px-4 py-3 w-full farmerInput"/>
+        </div>
+        
+        <div>
+            <label class="block text-sm font-medium mb-1">شماره کارت</label>
+            <input id="farmerCard" type="text" placeholder="شماره کارت (اختیاری)" 
+                   class="border border-gray-400 rounded-lg px-4 py-3 w-full farmerInput"/>
+        </div>
+    </div>
+</div>
+
+<div class="form-section">
+    <h3 class="form-section-title">اطلاعات تماس</h3>
+    <div>
+        <label class="block text-sm font-medium mb-1">آدرس *</label>
+        <textarea id="farmerAddress" placeholder="آدرس کامل" rows="3"
+                  class="border border-gray-400 rounded-lg px-4 py-3 w-full farmerInput"></textarea>
+    </div>
+</div>
+
+<button id="confirmFarmer" class="bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700 w-40 self-center flex items-center justify-center gap-2">
+    <span>تأیید</span>
+    <div id="createLoading" class="loading w-4 h-4 border-2 border-white border-t-transparent rounded-full"></div>
+</button>
+
+<!-- جستجو در لیست کشاورزان -->
+<div class="form-section mt-8">
+    <h3 class="form-section-title">جستجوی کشاورزان</h3>
+    <div class="flex gap-2">
+        <input id="searchFarmer" type="text" placeholder="جستجو بر اساس نام، کد ملی، تلفن یا آدرس..." 
+               class="border border-gray-400 rounded-lg px-4 py-3 flex-1 farmerInput"/>
+        <button onclick="searchFarmers()" class="bg-blue-600 text-white px-4 py-3 rounded-lg hover:bg-blue-700">
+            جستجو
+        </button>
+    </div>
+</div>
+
+<!-- بارگذاری لیست -->
+<div id="loadingFarmers" class="text-center py-8 hidden">
+    <div class="loading w-8 h-8 border-4 border-green-600 border-t-transparent rounded-full mx-auto"></div>
+    <p class="mt-2 text-gray-500">در حال بارگذاری کشاورزان...</p>
+</div>
+
+<!-- نمایش کارتی -->
+<div id="farmersCardView" class="mt-6 hidden">
+    <h3 class="font-bold text-lg mb-4">لیست کشاورزان</h3>
+    <div id="farmersList" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <!-- کشاورزان اینجا نمایش داده می‌شوند -->
+    </div>
+</div>
+
+<!-- نمایش جدولی -->
+<div id="farmersTableView" class="w-full flex justify-center mt-8 hidden">
+<div class="overflow-x-auto w-full max-w-6xl">
+<table class="min-w-full table-auto border-collapse border border-gray-300 dark:border-gray-700 text-center">
+<thead>
+<tr class="bg-gray-200 dark:bg-gray-700">
+    <th class="px-6 py-3 border-b border-gray-300 dark:border-gray-600">ردیف</th>
+    <th class="px-6 py-3 border-b border-gray-300 dark:border-gray-600">کد ملی</th>
+    <th class="px-6 py-3 border-b border-gray-300 dark:border-gray-600">نام کامل</th>
+    <th class="px-6 py-3 border-b border-gray-300 dark:border-gray-600">نام پدر</th>
+    <th class="px-6 py-3 border-b border-gray-300 dark:border-gray-600">شماره همراه</th>
+    <th class="px-6 py-3 border-b border-gray-300 dark:border-gray-600">شبا اول</th>
+    <th class="px-6 py-3 border-b border-gray-300 dark:border-gray-600">تاریخ ثبت</th>
+    <th class="px-6 py-3 border-b border-gray-300 dark:border-gray-600">عملیات</th>
+</tr>
+</thead>
+<tbody id="farmersTable" class="text-sm">
+    <!-- کشاورزان در جدول -->
+</tbody>
+</table>
+</div>
+</div>
+
+<!-- پیام خالی بودن -->
+<div id="emptyFarmers" class="text-center py-8 hidden">
+    <p class="text-gray-500">هیچ کشاورزی ثبت نشده است.</p>
+</div>
+
+<!-- پیام خطا -->
+<div id="farmersError" class="text-center py-8 hidden">
+    <p class="text-red-500">خطا در بارگذاری کشاورزان</p>
+    <button onclick="loadFarmers()" class="mt-2 text-blue-500 hover:text-blue-700">
+        تلاش مجدد
+    </button>
+</div>
+
+</section>
+
+</main>
+</div>
+
+<!-- فوتر -->
+<footer class="bg-white dark:bg-gray-800 text-center py-4 text-sm text-gray-500 mt-6">
+تمامی حقوق نزد تیم هاویرکشت محفوظ است
+</footer>
+
+<script>
+const API_BASE_URL = 'https://edu-api.havirkesht.ir';
+
+function getToken() {
+    const token = localStorage.getItem('access_token');
+    console.log('توکن دریافت شد:', token ? 'بله' : 'خیر');
+    return token;
+}
+
+function showMessage(elementId, message, isError = true) {
+    const element = document.getElementById(elementId);
+    element.textContent = message;
+    element.style.display = 'block';
+    
+    if (isError) {
+        element.className = 'error-message';
+    } else {
+        element.className = 'success-message';
+    }
+    
+    setTimeout(() => {
+        element.style.display = 'none';
+    }, 5000);
+}
+
+function formatDate(dateString) {
+    if (!dateString) return 'نامشخص';
+    
+    try {
+        if (dateString.trim() === '') return 'نامشخص';
+        
+        let date;
+        
+        if (dateString.includes('T')) {
+            date = new Date(dateString);
+        }
+        else if (dateString.includes(' ')) {
+            date = new Date(dateString.replace(' ', 'T'));
+        }
+        else if (/^\d{4}-\d{2}-\d{2}$/.test(dateString)) {
+            date = new Date(dateString + 'T00:00:00');
+        }
+        else {
+            date = new Date(dateString);
+        }
+        
+        if (isNaN(date.getTime())) {
+            return dateString;
+        }
+        
+        const options = {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+        };
+        
+        const persianDate = new Intl.DateTimeFormat('fa-IR', options).format(date);
+        return persianDate;
+        
+    } catch (error) {
+        console.error('خطا در تبدیل تاریخ:', error);
+        return dateString;
+    }
+}
+
+// ایجاد کشاورز جدید
+async function createFarmer() {
+    const token = getToken();
+    if (!token) {
+        showMessage('errorMessage', 'لطفا ابتدا وارد شوید', true);
+        return false;
+    }
+    
+    const nationalID = document.getElementById('farmerNationalID').value.trim();
+    const fullName = document.getElementById('farmerName').value.trim();
+    const fatherName = document.getElementById('farmerFather').value.trim();
+    const phoneNumber = document.getElementById('farmerPhone').value.trim();
+    const sheba1 = document.getElementById('farmerShaba1').value.trim();
+    const sheba2 = document.getElementById('farmerShaba2').value.trim();
+    const cardNumber = document.getElementById('farmerCard').value.trim();
+    const address = document.getElementById('farmerAddress').value.trim();
+    
+    // اعتبارسنجی فیلدهای اجباری
+    if (!nationalID || !fullName || !fatherName || !phoneNumber || !sheba1 || !address) {
+        showMessage('errorMessage', 'لطفا فیلدهای ضروری (ستاره‌دار) را تکمیل کنید', true);
+        return false;
+    }
+    
+    // اعتبارسنجی کد ملی (حداقل 10 رقم)
+    if (nationalID.length < 10) {
+        showMessage('errorMessage', 'کد ملی باید حداقل 10 رقم باشد', true);
+        return false;
+    }
+    
+    // اعتبارسنجی شماره تلفن (حداقل 10 رقم)
+    if (phoneNumber.length < 10) {
+        showMessage('errorMessage', 'شماره همراه باید حداقل 10 رقم باشد', true);
+        return false;
+    }
+    
+    try {
+        console.log('در حال ثبت کشاورز:', { nationalID, fullName, fatherName, phoneNumber });
+        document.getElementById('createLoading').classList.add('active');
+        
+        const response = await fetch(`${API_BASE_URL}/farmer/`, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json',
+                'accept': 'application/json'
+            },
+            body: JSON.stringify({
+                national_id: nationalID,
+                full_name: fullName,
+                father_name: fatherName,
+                phone_number: phoneNumber,
+                sheba_number_1: sheba1,
+                sheba_number_2: sheba2 || null,
+                card_number: cardNumber || null,
+                address: address
+            })
+        });
+        
+        console.log('وضعیت پاسخ ثبت کشاورز:', response.status);
+        
+        if (response.status === 201) {
+            const data = await response.json();
+            console.log('کشاورز ثبت شد:', data);
+            showMessage('successMessage', 'کشاورز با موفقیت ایجاد شد', false);
+            
+            // پاک کردن فرم
+            document.getElementById('farmerNationalID').value = '';
+            document.getElementById('farmerName').value = '';
+            document.getElementById('farmerFather').value = '';
+            document.getElementById('farmerPhone').value = '';
+            document.getElementById('farmerShaba1').value = '';
+            document.getElementById('farmerShaba2').value = '';
+            document.getElementById('farmerCard').value = '';
+            document.getElementById('farmerAddress').value = '';
+            
+            // بارگذاری مجدد لیست کشاورزان
+            await loadFarmers();
+            return true;
+        } else if (response.status === 422) {
+            const errorData = await response.json();
+            console.error('Validation error:', errorData);
+            let errorMessage = 'خطا در اعتبارسنجی داده‌ها';
+            if (errorData.detail && Array.isArray(errorData.detail)) {
+                errorMessage = errorData.detail.map(err => err.msg).join(', ');
+            }
+            showMessage('errorMessage', errorMessage, true);
+        } else if (response.status === 401) {
+            showMessage('errorMessage', 'احراز هویت ناموفق، لطفا دوباره وارد شوید', true);
+            setTimeout(() => {
+                window.location.href = '/login/login.html';
+            }, 2000);
+        } else {
+            const errorText = await response.text();
+            console.error('خطای ثبت کشاورز:', errorText);
+            showMessage('errorMessage', `خطای سرور: ${response.status}`, true);
+        }
+    } catch (error) {
+        console.error('Error creating farmer:', error);
+        showMessage('errorMessage', 'خطا در ارتباط با سرور', true);
+    } finally {
+        document.getElementById('createLoading').classList.remove('active');
+    }
+    
+    return false;
+}
+
+// بارگذاری لیست کشاورزان
+async function loadFarmers(page = 1, size = 50, search = '') {
+    const token = getToken();
+    if (!token) {
+        document.getElementById('farmersError').classList.remove('hidden');
+        document.getElementById('farmersError').innerHTML = `
+            <p class="text-red-500">لطفا ابتدا وارد شوید</p>
+            <button onclick="window.location.href='/login/login.html'" class="mt-2 text-blue-500 hover:text-blue-700">
+                رفتن به صفحه ورود
+            </button>
+        `;
+        return;
+    }
+    
+    try {
+        document.getElementById('loadingFarmers').classList.remove('hidden');
+        document.getElementById('farmersCardView').classList.add('hidden');
+        document.getElementById('farmersTableView').classList.add('hidden');
+        document.getElementById('emptyFarmers').classList.add('hidden');
+        document.getElementById('farmersError').classList.add('hidden');
+        
+        let url = `${API_BASE_URL}/farmer/?page=${page}&size=${size}`;
+        if (search) {
+            url += `&search=${encodeURIComponent(search)}`;
+        }
+        
+        console.log('در حال دریافت کشاورزان...');
+        const response = await fetch(url, {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'accept': 'application/json'
+            }
+        });
+        
+        console.log('وضعیت پاسخ کشاورزان:', response.status);
+        
+        if (response.ok) {
+            const data = await response.json();
+            console.log('کشاورزان دریافتی:', data);
+            displayFarmers(data);
+        } else if (response.status === 401) {
+            showMessage('errorMessage', 'احراز هویت ناموفق، لطفا دوباره وارد شوید', true);
+            setTimeout(() => {
+                window.location.href = '/login/login.html';
+            }, 2000);
+        } else {
+            const errorText = await response.text();
+            console.error('خطای دریافت کشاورزان:', errorText);
+            throw new Error(`خطای سرور: ${response.status}`);
+        }
+    } catch (error) {
+        console.error('Error loading farmers:', error);
+        document.getElementById('loadingFarmers').classList.add('hidden');
+        document.getElementById('farmersError').classList.remove('hidden');
+        document.getElementById('farmersError').innerHTML = `
+            <p class="text-red-500">خطا در بارگذاری کشاورزان: ${error.message}</p>
+            <button onclick="loadFarmers()" class="mt-2 text-blue-500 hover:text-blue-700">
+                تلاش مجدد
+            </button>
+        `;
+    }
+}
+
+// جستجوی کشاورزان
+async function searchFarmers() {
+    const searchTerm = document.getElementById('searchFarmer').value.trim();
+    await loadFarmers(1, 50, searchTerm);
+}
+
+// نمایش کشاورزان (هم کارتی و هم جدولی)
+function displayFarmers(data) {
+    document.getElementById('loadingFarmers').classList.add('hidden');
+    
+    if (!data.items || data.items.length === 0) {
+        document.getElementById('emptyFarmers').classList.remove('hidden');
+        return;
+    }
+    
+    // نمایش کارتی
+    const farmersList = document.getElementById('farmersList');
+    farmersList.innerHTML = '';
+    
+    data.items.forEach((farmer, index) => {
+        const farmerItem = document.createElement('div');
+        farmerItem.className = 'farmer-card';
+        
+        const nationalID = farmer.national_id || 'نامشخص';
+        const fullName = farmer.full_name || 'نامشخص';
+        const fatherName = farmer.father_name || 'نامشخص';
+        const phoneNumber = farmer.phone_number || 'نامشخص';
+        const sheba1 = farmer.sheba_number_1 || 'نامشخص';
+        const sheba2 = farmer.sheba_number_2 || '';
+        const cardNumber = farmer.card_number || '';
+        const address = farmer.address || 'نامشخص';
+        const createdAt = farmer.created_at || '';
+        
+        farmerItem.innerHTML = `
+            <div class="flex justify-between items-start">
+                <div class="flex-1">
+                    <div class="flex items-center justify-between mb-3">
+                        <span class="bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 text-xs px-2 py-1 rounded-full">
+                            ${index + 1}
+                        </span>
+                        <span class="farmer-id">${nationalID}</span>
+                    </div>
+                    
+                    <h4 class="farmer-name mb-2">${fullName}</h4>
+                    
+                    <div class="space-y-1">
+                        <div class="farmer-detail">
+                            <span class="text-gray-600 dark:text-gray-400">پدر:</span> ${fatherName}
+                        </div>
+                        <div class="farmer-detail">
+                            <span class="text-gray-600 dark:text-gray-400">تلفن:</span> ${phoneNumber}
+                        </div>
+                        <div class="farmer-detail">
+                            <span class="text-gray-600 dark:text-gray-400">شبا:</span> ${sheba1.substring(0, 10)}...
+                        </div>
+                        ${address ? `<div class="farmer-detail">
+                            <span class="text-gray-600 dark:text-gray-400">آدرس:</span> ${address.substring(0, 30)}...
+                        </div>` : ''}
+                    </div>
+                    
+                    <div class="farmer-date flex items-center gap-1 mt-3">
+                        <span class="text-gray-500 dark:text-gray-400">📅</span>
+                        <span>${formatDate(createdAt)}</span>
+                    </div>
+                </div>
+                
+                <div class="flex flex-col gap-2">
+                    <button 
+                        onclick="editFarmer('${nationalID.replace(/'/g, "\\'")}')" 
+                        class="edit-btn bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 w-8 h-8 rounded-full flex items-center justify-center hover:bg-blue-100 dark:hover:bg-blue-900/30 hover:text-blue-600 transition-all"
+                        title="ویرایش">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                        </svg>
+                    </button>
+                    <button 
+                        onclick="deleteFarmer('${nationalID.replace(/'/g, "\\'")}')" 
+                        class="delete-btn bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 w-8 h-8 rounded-full flex items-center justify-center hover:bg-red-100 dark:hover:bg-red-900/30 hover:text-red-600 transition-all"
+                        title="حذف">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        `;
+        
+        farmersList.appendChild(farmerItem);
+    });
+    
+    // نمایش جدولی
+    const farmersTable = document.getElementById('farmersTable');
+    farmersTable.innerHTML = '';
+    
+    data.items.forEach((farmer, index) => {
+        const row = document.createElement('tr');
+        row.className = "border-b border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-800";
+        
+        const formattedDate = formatDate(farmer.created_at);
+        const shortSheba = farmer.sheba_number_1 ? `${farmer.sheba_number_1.substring(0, 8)}...` : '';
+        
+        row.innerHTML = `
+            <td class="px-4 py-2">${index + 1}</td>
+            <td class="px-4 py-2">${farmer.national_id || ''}</td>
+            <td class="px-4 py-2 font-medium">${farmer.full_name || ''}</td>
+            <td class="px-4 py-2">${farmer.father_name || ''}</td>
+            <td class="px-4 py-2">${farmer.phone_number || ''}</td>
+            <td class="px-4 py-2">${shortSheba}</td>
+            <td class="px-4 py-2">${formattedDate}</td>
+            <td class="px-4 py-2">
+                <div class="flex gap-1 justify-center">
+                    <button 
+                        onclick="editFarmer('${farmer.national_id.replace(/'/g, "\\'")}')" 
+                        class="edit-btn bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 px-2 py-1 rounded text-xs hover:bg-blue-500 hover:text-white transition-all"
+                        title="ویرایش">
+                        ویرایش
+                    </button>
+                    <button 
+                        onclick="deleteFarmer('${farmer.national_id.replace(/'/g, "\\'")}')" 
+                        class="delete-btn bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 px-2 py-1 rounded text-xs hover:bg-red-500 hover:text-white transition-all"
+                        title="حذف">
+                        حذف
+                    </button>
+                </div>
+            </td>
+        `;
+        
+        farmersTable.appendChild(row);
+    });
+    
+    // نمایش هر دو حالت
+    document.getElementById('farmersCardView').classList.remove('hidden');
+    document.getElementById('farmersTableView').classList.remove('hidden');
+}
+
+// ویرایش کشاورز
+async function editFarmer(nationalID) {
+    const token = getToken();
+    if (!token) {
+        showMessage('errorMessage', 'لطفا ابتدا وارد شوید', true);
+        return;
+    }
+    
+    try {
+        console.log('در حال دریافت اطلاعات کشاورز برای ویرایش:', nationalID);
+        
+        const response = await fetch(`${API_BASE_URL}/farmer/${nationalID}`, {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'accept': 'application/json'
+            }
+        });
+        
+        if (response.ok) {
+            const farmer = await response.json();
+            
+            // پر کردن فرم با اطلاعات کشاورز
+            document.getElementById('farmerNationalID').value = farmer.national_id;
+            document.getElementById('farmerName').value = farmer.full_name;
+            document.getElementById('farmerFather').value = farmer.father_name;
+            document.getElementById('farmerPhone').value = farmer.phone_number;
+            document.getElementById('farmerShaba1').value = farmer.sheba_number_1;
+            document.getElementById('farmerShaba2').value = farmer.sheba_number_2 || '';
+            document.getElementById('farmerCard').value = farmer.card_number || '';
+            document.getElementById('farmerAddress').value = farmer.address;
+            
+            // تغییر متن دکمه به ویرایش
+            const confirmButton = document.getElementById('confirmFarmer');
+            confirmButton.innerHTML = '<span>ویرایش</span><div id="createLoading" class="loading w-4 h-4 border-2 border-white border-t-transparent rounded-full"></div>';
+            confirmButton.setAttribute('data-mode', 'edit');
+            confirmButton.setAttribute('data-national-id', nationalID);
+            
+            showMessage('successMessage', 'اطلاعات کشاورز برای ویرایش بارگذاری شد', false);
+            
+            // اسکرول به فرم
+            document.getElementById('farmerNationalID').scrollIntoView({ behavior: 'smooth' });
+        } else {
+            showMessage('errorMessage', 'خطا در دریافت اطلاعات کشاورز', true);
+        }
+    } catch (error) {
+        console.error('Error loading farmer for edit:', error);
+        showMessage('errorMessage', 'خطا در ارتباط با سرور', true);
+    }
+}
+
+// حذف کشاورز
+async function deleteFarmer(nationalID) {
+    if (!confirm(`آیا از حذف کشاورز با کد ملی ${nationalID} اطمینان دارید؟`)) {
+        return;
+    }
+    
+    const token = getToken();
+    if (!token) {
+        showMessage('errorMessage', 'لطفا ابتدا وارد شوید', true);
+        return;
+    }
+    
+    try {
+        console.log('در حال حذف کشاورز:', nationalID);
+        
+        const response = await fetch(`${API_BASE_URL}/farmer/${nationalID}`, {
+            method: 'DELETE',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'accept': 'application/json'
+            }
+        });
+        
+        console.log('وضعیت پاسخ حذف کشاورز:', response.status);
+        
+        if (response.ok) {
+            const result = await response.json();
+            console.log('کشاورز حذف شد:', result);
+            showMessage('successMessage', `کشاورز با کد ملی ${nationalID} با موفقیت حذف شد`, false);
+            
+            // بارگذاری مجدد لیست
+            await loadFarmers();
+        } else if (response.status === 401) {
+            showMessage('errorMessage', 'احراز هویت ناموفق، لطفا دوباره وارد شوید', true);
+            setTimeout(() => {
+                window.location.href = '/login/login.html';
+            }, 2000);
+        } else {
+            const errorText = await response.text();
+            console.error('خطای حذف کشاورز:', errorText);
+            showMessage('errorMessage', `خطا در حذف کشاورز: ${response.status}`, true);
+        }
+    } catch (error) {
+        console.error('Error deleting farmer:', error);
+        showMessage('errorMessage', 'خطا در ارتباط با سرور', true);
+    }
+}
+
+// مدیریت منو
+const menuBtn = document.getElementById('menuBtn');
+const sidebar = document.getElementById('sidebar');
+menuBtn.onclick = () => sidebar.classList.toggle('hidden');
+
+function toggleSubmenu(id){
+    document.getElementById(id).classList.toggle('hidden');
+}
+
+// تغییر تم
+const themeToggle = document.getElementById('themeToggle');
+themeToggle.onclick = () => {
+    document.documentElement.classList.toggle('dark');
+    themeToggle.textContent = document.documentElement.classList.contains('dark') ? '☀️' : '🌙';
+    localStorage.setItem('theme', document.documentElement.classList.contains('dark') ? 'dark' : 'light');
+};
+
+// تنظیم تم ذخیره شده و مقداردهی اولیه
+document.addEventListener('DOMContentLoaded', () => {
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'dark') {
+        document.documentElement.classList.add('dark');
+        themeToggle.textContent = '☀️';
+    }
+    
+    // ثبت/ویرایش کشاورز
+    const confirmFarmer = document.getElementById('confirmFarmer');
+    confirmFarmer.onclick = async () => {
+        const mode = confirmFarmer.getAttribute('data-mode');
+        
+        if (mode === 'edit') {
+            // ویرایش کشاورز موجود
+            await updateFarmer();
+        } else {
+            // ایجاد کشاورز جدید
+            await createFarmer();
+        }
+    };
+    
+    // عملکرد به‌روزرسانی کشاورز
+    async function updateFarmer() {
+        const token = getToken();
+        if (!token) {
+            showMessage('errorMessage', 'لطفا ابتدا وارد شوید', true);
+            return false;
+        }
+        
+        const nationalID = confirmFarmer.getAttribute('data-national-id');
+        const fullName = document.getElementById('farmerName').value.trim();
+        const fatherName = document.getElementById('farmerFather').value.trim();
+        const phoneNumber = document.getElementById('farmerPhone').value.trim();
+        const sheba1 = document.getElementById('farmerShaba1').value.trim();
+        const sheba2 = document.getElementById('farmerShaba2').value.trim();
+        const cardNumber = document.getElementById('farmerCard').value.trim();
+        const address = document.getElementById('farmerAddress').value.trim();
+        
+        // اعتبارسنجی
+        if (!fullName || !fatherName || !phoneNumber || !sheba1 || !address) {
+            showMessage('errorMessage', 'لطفا فیلدهای ضروری را تکمیل کنید', true);
+            return false;
+        }
+        
+        try {
+            console.log('در حال به‌روزرسانی کشاورز:', { nationalID, fullName, fatherName });
+            document.getElementById('createLoading').classList.add('active');
+            
+            const response = await fetch(`${API_BASE_URL}/farmer/${nationalID}`, {
+                method: 'PUT',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json',
+                    'accept': 'application/json'
+                },
+                body: JSON.stringify({
+                    full_name: fullName,
+                    father_name: fatherName,
+                    phone_number: phoneNumber,
+                    sheba_number_1: sheba1,
+                    sheba_number_2: sheba2 || null,
+                    card_number: cardNumber || null,
+                    address: address
+                })
+            });
+            
+            console.log('وضعیت پاسخ به‌روزرسانی کشاورز:', response.status);
+            
+            if (response.ok) {
+                const data = await response.json();
+                console.log('کشاورز به‌روزرسانی شد:', data);
+                showMessage('successMessage', 'کشاورز با موفقیت به‌روزرسانی شد', false);
+                
+                // پاک کردن فرم و بازنشانی دکمه
+                document.getElementById('farmerNationalID').value = '';
+                document.getElementById('farmerName').value = '';
+                document.getElementById('farmerFather').value = '';
+                document.getElementById('farmerPhone').value = '';
+                document.getElementById('farmerShaba1').value = '';
+                document.getElementById('farmerShaba2').value = '';
+                document.getElementById('farmerCard').value = '';
+                document.getElementById('farmerAddress').value = '';
+                
+                confirmButton.innerHTML = '<span>تأیید</span><div id="createLoading" class="loading w-4 h-4 border-2 border-white border-t-transparent rounded-full"></div>';
+                confirmButton.removeAttribute('data-mode');
+                confirmButton.removeAttribute('data-national-id');
+                
+                // بارگذاری مجدد لیست
+                await loadFarmers();
+                return true;
+            } else {
+                const errorText = await response.text();
+                showMessage('errorMessage', `خطا در به‌روزرسانی کشاورز: ${response.status}`, true);
+            }
+        } catch (error) {
+            console.error('Error updating farmer:', error);
+            showMessage('errorMessage', 'خطا در ارتباط با سرور', true);
+        } finally {
+            document.getElementById('createLoading').classList.remove('active');
+        }
+        
+        return false;
+    }
+    
+    // امکان ارسال با کلید Enter در فیلد جستجو
+    const searchInput = document.getElementById('searchFarmer');
+    searchInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+            searchFarmers();
+        }
+    });
+    
+    // بارگذاری کشاورزان
+    loadFarmers();
+    
+    // خروج
+    const logoutBtn = document.getElementById('logoutBtn');
+    if (logoutBtn) {
+        logoutBtn.onclick = (e) => {
+            e.preventDefault();
+            localStorage.clear();
+            window.location.href = '/login/login.html';
+        };
+    }
+});
+</script>
+</body>
+</html>

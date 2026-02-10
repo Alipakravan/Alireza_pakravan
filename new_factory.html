@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>ثبت کارخانه | هاویرکشت</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="output.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-100">
+
+<!-- ================= HEADER ================= -->
+<header class="flex items-center justify-between px-4 py-3 bg-white dark:bg-gray-800 shadow">
+    <button id="menuBtn" class="text-2xl">☰</button>
+    <div class="flex items-center gap-4">
+        <button id="themeToggle" class="text-xl">🌙</button>
+        <a href="#" class="text-xl">🔔</a>
+        <a href="#" class="text-xl">👤</a>
+    </div>
+</header>
+
+<!-- ================= LAYOUT ================= -->
+<div class="flex">
+
+    <!-- ================= SIDEBAR ================= -->
+<aside id="sidebar" class="w-72 min-h-screen bg-white dark:bg-gray-800 shadow-lg p-4 hidden">
+    <nav class="space-y-3 text-sm">
+        <a href="#" class="block font-bold hover:text-green-600">داشبورد</a>
+
+        <div>
+            <button onclick="toggleSubmenu('baseData')" class="flex justify-between w-full hover:text-green-600">
+                <span>داده های اولیه</span><span>▾</span>
+            </button>
+            <div id="baseData" class="mr-4 mt-2 space-y-1 hidden text-gray-600 dark:text-gray-300">
+                <a href="new_year.html" class="block hover:text-green-500">ثبت سال زراعی</a>
+                <a href="new_province.html" class="block hover:text-green-500">ثبت استان</a>
+                <a href="new_city.html" class="block hover:text-green-500 font-bold">ثبت شهرستان</a>
+                <a href="new_village.html" class="block hover:text-green-500">ثبت روستا</a>
+                <a href="new_car.html" class="block hover:text-green-500">ثبت انواع خودرو</a>
+                <a href="new_driver.html" class="block hover:text-green-500">ثبت راننده</a>
+                <a href="new_factory.html" class="block hover:text-green-500">ثبت کارخانه</a>
+                <a href="new_unit.html" class="block hover:text-green-500">ثبت واحد اندازه گیری</a>
+                <a href="new_poison.html" class="block hover:text-green-500">ثبت انواع سم</a>
+                <a href="new_seed.html" class="block hover:text-green-500">ثبت انواع بذر</a>
+                <a href="new_commodity.html" class="block hover:text-green-500">ثبت انواع کالا</a>
+                <a href="pay.html" class="block hover:text-green-500">ثبت انواع پرداخت</a>
+                <a href="price.html" class="block hover:text-green-500">ثبت قیمت کالا</a>
+                <a href="cutie.html" class="block hover:text-green-500">ثبت قیمت عیار</a>
+                <a href="new_farmer.html" class="block hover:text-green-500">ثبت کشاورز</a>
+            </div>
+        </div>
+
+        <div>
+            <button onclick="toggleSubmenu('contractorOps')" class="flex justify-between w-full hover:text-green-600">
+                <span>عملیات پیمانکار</span><span>▾</span>
+            </button>
+            <div id="contractorOps" class="mr-4 mt-2 space-y-1 hidden">
+                <a href="factory_pay.html" class="block hover:text-green-500">ثبت واریزی کارخانه</a>
+                <a href="factory_seed.html" class="block hover:text-green-500">ثبت بذر کارخانه</a>
+                <a href="factory_poison.html" class="block hover:text-green-500">ثبت سم کارخانه</a>
+                <a href="factory_sugar.html" class="block hover:text-green-500">ثبت شکر کارخانه</a>
+                <a href="factory_scum.html" class="block hover:text-green-500">ثبت تفاله کارخانه</a>
+            </div>
+        </div>
+
+        <a href="farmers_operations.html" class="block hover:text-green-600">عملیات کشاورز</a>
+        <a href="#" class="block hover:text-green-600">صورتحساب کشاورزان</a>
+
+        <div>
+            <button onclick="toggleSubmenu('reports')" class="flex justify-between w-full hover:text-green-600">
+                <span>گزارش گیری</span><span>▾</span>
+            </button>
+            <div id="reports" class="mr-4 mt-2 space-y-1 hidden">
+                <a href="#" class="block hover:text-green-500">گزارش کلی</a>
+                <a href="#" class="block hover:text-green-500">گزارش کارخانه ها</a>
+                <a href="#" class="block hover:text-green-500">گزارش بذر</a>
+                <a href="#" class="block hover:text-green-500">گزارش سم</a>
+                <a href="#" class="block hover:text-green-500">گزارش شکر</a>
+                <a href="#" class="block hover:text-green-500">گزارش تفاله</a>
+            </div>
+        </div>
+
+        <a href="#" class="block hover:text-green-600">مدیریت ارسال پیامک</a>
+        <a href="#" class="block hover:text-green-600">ثبت بار های آماده حمل</a>
+
+        <div>
+            <button onclick="toggleSubmenu('settings')" class="flex justify-between w-full hover:text-green-600">
+                <span>تنظیمات</span><span>▾</span>
+            </button>
+            <div id="settings" class="mr-4 mt-2 space-y-1 hidden">
+                <a href="#" class="block hover:text-green-500">مدیریت کاربران</a>
+                <a href="#" class="block hover:text-green-500">تعیین رمز عبور</a>
+                <a href="#" class="block hover:text-red-500">خروج</a>
+            </div>
+        </div>
+
+        <a href="#" class="block hover:text-green-600">پشتیبانی</a>
+    </nav>
+</aside>
+
+    <!-- MAIN -->
+    <main class="flex-1 p-6 space-y-8">
+        <section class="bg-white dark:bg-gray-800 shadow rounded-xl p-6 space-y-4">
+            <h2 class="font-bold text-lg">ثبت کارخانه</h2>
+
+            <button id="toggleCreate" class="text-green-600 font-bold">+ ایجاد کارخانه جدید</button>
+
+            <div id="createBox" class="hidden flex gap-4 mt-2">
+                <input id="factoryInput" type="text" placeholder="نام کارخانه"
+                       class="border rounded px-3 py-2 w-40 dark:bg-gray-700 text-black dark:text-white"/>
+                <button id="confirmFactory" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">تأیید</button>
+            </div>
+
+            <div id="createdFactories" class="mt-4 space-y-2"></div>
+        </section>
+    </main>
+</div>
+
+<footer class="bg-white dark:bg-gray-800 text-center py-4 text-sm text-gray-500 mt-6">
+    تمامی حقوق نزد تیم هاویرکشت محفوظ است
+</footer>
+
+<script>
+    const menuBtn = document.getElementById('menuBtn');
+    const sidebar = document.getElementById('sidebar');
+    menuBtn.onclick = () => sidebar.classList.toggle('hidden');
+
+    function toggleSubmenu(id){ document.getElementById(id).classList.toggle('hidden'); }
+
+    const themeToggle = document.getElementById('themeToggle');
+    themeToggle.onclick = () => {
+        document.documentElement.classList.toggle('dark');
+        themeToggle.textContent = document.documentElement.classList.contains('dark') ? '☀️' : '🌙';
+    };
+
+    const toggleCreate = document.getElementById('toggleCreate');
+    const createBox = document.getElementById('createBox');
+    const confirmFactory = document.getElementById('confirmFactory');
+    const factoryInput = document.getElementById('factoryInput');
+    const createdFactories = document.getElementById('createdFactories');
+
+    toggleCreate.onclick = () => createBox.classList.toggle('hidden');
+
+    confirmFactory.onclick = () => {
+        const factory = factoryInput.value.trim();
+        if (!factory) return;
+        const date = new Date().toLocaleDateString('fa-IR');
+        const box = document.createElement('div');
+        box.className = "bg-black text-white p-3 rounded-lg flex justify-between items-center";
+        box.innerHTML = `<span class="font-bold">${factory}</span><span class="text-xs text-gray-400">${date}</span><a href="#" class="text-xl">+</a>`;
+        createdFactories.appendChild(box);
+        factoryInput.value = "";
+    };
+</script>
+
+</body>
+</html>

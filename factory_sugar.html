@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<title>ثبت شکر کارخانه | هاویرکشت</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="output.css" rel="stylesheet">
+<style>
+/* بک‌گراند خاکستری روشن و متن خاکستری تیره برای input ها */
+.factoryInput {
+    background-color: #e2e8f0;
+    color: #4a5568;
+}
+</style>
+</head>
+<body class="bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-100">
+
+<!-- هدر -->
+<header class="flex items-center justify-between px-4 py-3 bg-white dark:bg-gray-800 shadow">
+    <button id="menuBtn" class="text-2xl">☰</button>
+    <div class="flex items-center gap-4">
+        <button id="themeToggle" class="text-xl">🌙</button>
+        <a href="#" class="text-xl">🔔</a>
+        <a href="#" class="text-xl">👤</a>
+    </div>
+</header>
+
+<div class="flex">
+<!-- منوی کناری -->
+<aside id="sidebar" class="w-72 min-h-screen bg-white dark:bg-gray-800 shadow-lg p-4 hidden">
+    <nav class="space-y-3 text-sm">
+        <a href="#" class="block font-bold hover:text-green-600">داشبورد</a>
+
+        <div>
+            <button onclick="toggleSubmenu('baseData')" class="flex justify-between w-full hover:text-green-600">
+                <span>داده های اولیه</span><span>▾</span>
+            </button>
+            <div id="baseData" class="mr-4 mt-2 space-y-1 hidden text-gray-600 dark:text-gray-300">
+                <a href="new_year.html" class="block hover:text-green-500">ثبت سال زراعی</a>
+                <a href="new_province.html" class="block hover:text-green-500">ثبت استان</a>
+                <a href="new_city.html" class="block hover:text-green-500 font-bold">ثبت شهرستان</a>
+                <a href="new_village.html" class="block hover:text-green-500">ثبت روستا</a>
+                <a href="new_car.html" class="block hover:text-green-500">ثبت انواع خودرو</a>
+                <a href="new_driver.html" class="block hover:text-green-500">ثبت راننده</a>
+                <a href="new_factory.html" class="block hover:text-green-500">ثبت کارخانه</a>
+                <a href="new_unit.html" class="block hover:text-green-500">ثبت واحد اندازه گیری</a>
+                <a href="new_poison.html" class="block hover:text-green-500">ثبت انواع سم</a>
+                <a href="new_seed.html" class="block hover:text-green-500">ثبت انواع بذر</a>
+                <a href="new_commodity.html" class="block hover:text-green-500">ثبت انواع کالا</a>
+                <a href="pay.html" class="block hover:text-green-500">ثبت انواع پرداخت</a>
+                <a href="price.html" class="block hover:text-green-500">ثبت قیمت کالا</a>
+                <a href="cutie.html" class="block hover:text-green-500">ثبت قیمت عیار</a>
+                <a href="new_farmer.html" class="block hover:text-green-500">ثبت کشاورز</a>
+            </div>
+        </div>
+
+        <div>
+            <button onclick="toggleSubmenu('contractorOps')" class="flex justify-between w-full hover:text-green-600">
+                <span>عملیات پیمانکار</span><span>▾</span>
+            </button>
+            <div id="contractorOps" class="mr-4 mt-2 space-y-1 hidden">
+                <a href="factory_pay.html" class="block hover:text-green-500">ثبت واریزی کارخانه</a>
+                <a href="factory_seed.html" class="block hover:text-green-500">ثبت بذر کارخانه</a>
+                <a href="factory_poison.html" class="block hover:text-green-500">ثبت سم کارخانه</a>
+                <a href="factory_sugar.html" class="block hover:text-green-500">ثبت شکر کارخانه</a>
+                <a href="factory_scum.html" class="block hover:text-green-500">ثبت تفاله کارخانه</a>
+            </div>
+        </div>
+
+        <a href="farmers_operations.html" class="block hover:text-green-600">عملیات کشاورز</a>
+        <a href="#" class="block hover:text-green-600">صورتحساب کشاورزان</a>
+
+        <div>
+            <button onclick="toggleSubmenu('reports')" class="flex justify-between w-full hover:text-green-600">
+                <span>گزارش گیری</span><span>▾</span>
+            </button>
+            <div id="reports" class="mr-4 mt-2 space-y-1 hidden">
+                <a href="#" class="block hover:text-green-500">گزارش کلی</a>
+                <a href="#" class="block hover:text-green-500">گزارش کارخانه ها</a>
+                <a href="#" class="block hover:text-green-500">گزارش بذر</a>
+                <a href="#" class="block hover:text-green-500">گزارش سم</a>
+                <a href="#" class="block hover:text-green-500">گزارش شکر</a>
+                <a href="#" class="block hover:text-green-500">گزارش تفاله</a>
+            </div>
+        </div>
+
+        <a href="#" class="block hover:text-green-600">مدیریت ارسال پیامک</a>
+        <a href="#" class="block hover:text-green-600">ثبت بار های آماده حمل</a>
+
+        <div>
+            <button onclick="toggleSubmenu('settings')" class="flex justify-between w-full hover:text-green-600">
+                <span>تنظیمات</span><span>▾</span>
+            </button>
+            <div id="settings" class="mr-4 mt-2 space-y-1 hidden">
+                <a href="#" class="block hover:text-green-500">مدیریت کاربران</a>
+                <a href="#" class="block hover:text-green-500">تعیین رمز عبور</a>
+                <a href="#" class="block hover:text-red-500">خروج</a>
+            </div>
+        </div>
+
+        <a href="#" class="block hover:text-green-600">پشتیبانی</a>
+    </nav>
+</aside>
+
+<!-- بخش اصلی -->
+<main class="flex-1 flex flex-col items-center p-6 space-y-8">
+
+<section class="bg-white dark:bg-gray-800 shadow rounded-xl p-6 space-y-6 w-full max-w-3xl">
+<h2 class="font-bold text-lg text-center mb-6">ثبت شکر کارخانه</h2>
+
+<!-- فرم ثبت شکر کارخانه -->
+<div class="bg-gray-200 dark:bg-gray-700 p-6 rounded-xl w-full max-w-md mx-auto flex flex-col gap-4">
+    <input id="factoryName" type="text" placeholder="کارخانه" class="border border-gray-400 rounded-lg px-4 py-3 w-full factoryInput"/>
+    <input id="sugarWeight" type="number" placeholder="وزن شکر دریافتی از کارخانه" class="border border-gray-400 rounded-lg px-4 py-3 w-full factoryInput"/>
+    <input id="sugarPrice" type="number" placeholder="بهای شکر دریافتی از کارخانه" class="border border-gray-400 rounded-lg px-4 py-3 w-full factoryInput"/>
+    <button id="confirmSugar" class="bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700 w-40 self-center">تأیید</button>
+</div>
+
+<!-- جدول شکر ها -->
+<section class="w-full flex justify-center mt-8">
+<div class="overflow-x-auto w-full max-w-4xl">
+<table class="min-w-full table-auto border-collapse border border-gray-300 text-center">
+<thead>
+<tr class="bg-gray-200">
+<th class="px-6 py-3 border-b border-gray-300">کارخانه</th>
+<th class="px-6 py-3 border-b border-gray-300">وزن شکر دریافتی</th>
+<th class="px-6 py-3 border-b border-gray-300">بهای شکر دریافتی</th>
+<th class="px-6 py-3 border-b border-gray-300">تاریخ ثبت</th>
+</tr>
+</thead>
+<tbody id="sugarTable" class="text-sm"></tbody>
+</table>
+</div>
+</section>
+</section>
+
+</main>
+</div>
+
+<!-- فوتر -->
+<footer class="bg-white dark:bg-gray-800 text-center py-4 text-sm text-gray-500 mt-6">
+تمامی حقوق نزد تیم هاویرکشت محفوظ است
+</footer>
+
+<script>
+const menuBtn = document.getElementById('menuBtn');
+const sidebar = document.getElementById('sidebar');
+menuBtn.onclick = () => sidebar.classList.toggle('hidden');
+
+function toggleSubmenu(id){ document.getElementById(id).classList.toggle('hidden'); }
+
+const themeToggle = document.getElementById('themeToggle');
+themeToggle.onclick = () => {
+    document.documentElement.classList.toggle('dark');
+    themeToggle.textContent = document.documentElement.classList.contains('dark') ? '☀️' : '🌙';
+};
+
+const confirmSugar = document.getElementById('confirmSugar');
+const sugarTable = document.getElementById('sugarTable');
+
+confirmSugar.onclick = () => {
+    const factory = document.getElementById('factoryName').value.trim();
+    const weight = document.getElementById('sugarWeight').value.trim();
+    const price = document.getElementById('sugarPrice').value.trim();
+
+    if(!factory || !weight || !price) return;
+
+    const date = new Date().toLocaleDateString('fa-IR');
+    const row = document.createElement('tr');
+    row.className = "border-b border-gray-300";
+    row.innerHTML = `<td class="px-4 py-2">${factory}</td>
+                     <td class="px-4 py-2">${weight}</td>
+                     <td class="px-4 py-2">${price}</td>
+                     <td class="px-4 py-2">${date}</td>`;
+    sugarTable.appendChild(row);
+
+    document.getElementById('factoryName').value = "";
+    document.getElementById('sugarWeight').value = "";
+    document.getElementById('sugarPrice').value = "";
+};
+</script>
+</body>
+</html>
